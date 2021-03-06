@@ -1,0 +1,50 @@
+service: sqsService
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'develop'}
+  region: ${opt:region, 'us-east-1'}
+  profile: default
+  timeout: 30
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - sqs:GetQueueAttributes
+      - sqs:ListQueues
+      - sqs:GetQueueUrl
+      - sqs:SendMessage
+      - sqs:ReceiveMessage
+    Resource:
+      !GetAtt TrainingQueue.Arn
+
+package:
+  exclude:
+    - README.md
+    - .vscode/*
+    - .eslintrc
+    - .npmignore
+    - node_modules/aws-sdk/**
+
+functions:
+  sender:
+    handler: producer.handler
+    memorySize: 128
+    events:
+      - http:
+          path: api/v1/producer
+          method: post
+  consumer:
+    handler: consumer.handler
+    memorySize: 128
+    events:
+      - sqs:
+          arn: !GetAtt TrainingQueue.Arn
+          batchSize: 1
+
+resources:
+  Resources:
+    TrainingQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "TrainingQueue"
