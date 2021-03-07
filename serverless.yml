@@ -28,14 +28,19 @@ package:
 
 functions:
   sender:
-    handler: producer.handler
+    handler: src/lambda/producer.handler
     memorySize: 128
     events:
       - http:
           path: api/v1/producer
           method: post
+    environment: 
+      REGION: ${opt:stage, self:provider.stage}
+      ENDOINT: https://sqs.${opt:stage, self:provider.stage}.amazonaws.com/
+      SQS_NAME: TrainingQueue 
+
   consumer:
-    handler: consumer.handler
+    handler: src/lambda/consumer.handler
     memorySize: 128
     events:
       - sqs:

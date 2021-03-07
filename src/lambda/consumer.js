@@ -1,5 +1,3 @@
-'use strict';
-
 exports.handler = (event, context, callback) => {
   const response = {
       statusCode: 200,
@@ -8,8 +6,6 @@ exports.handler = (event, context, callback) => {
           input: event,
       }),
   };
-console.log('event: ', JSON.stringify(event));
-var body = event.Records[0].body;
-  console.log("text: ", JSON.parse(body).text);
+console.info('event: ', JSON.stringify(event));
 callback(null, response);
 };
