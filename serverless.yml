@@ -36,7 +36,7 @@ functions:
           method: post
     environment: 
       REGION: ${opt:stage, self:provider.stage}
-      ENDOINT: https://sqs.${opt:stage, self:provider.stage}.amazonaws.com/
+      ENDPOINT: https://sqs.${opt:region, self:provider.region}.amazonaws.com/
       SQS_NAME: TrainingQueue 
 
   consumer:
