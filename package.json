@@ -5,7 +5,8 @@
   "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "offline": "sls offline"
+    "offline": "sls offline",
+    "deploy": "sls deploy --stage dev"
   },
   "author": "",
   "license": "ISC",
