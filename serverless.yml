@@ -5,7 +5,6 @@ provider:
   runtime: nodejs12.x
   stage: ${opt:stage, 'develop'}
   region: ${opt:region, 'us-east-1'}
-  profile: default
   timeout: 30
   iamRoleStatements:
   - Effect: Allow
