@@ -34,9 +34,9 @@ functions:
           path: api/v1/producer
           method: post
     environment: 
-      REGION: ${opt:stage, self:provider.stage}
+      REGION: ${opt:region, self:provider.region}
       ENDPOINT: https://sqs.${opt:region, self:provider.region}.amazonaws.com/
-      SQS_NAME: TrainingQueue 
+      SQS_NAME: "${self:service}-TrainingQueue-${self:provider.stage}" 
 
   consumer:
     handler: src/lambda/consumer.handler
@@ -51,4 +51,4 @@ resources:
     TrainingQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: "TrainingQueue"
+        QueueName: "${self:service}-TrainingQueue-${self:provider.stage}"
